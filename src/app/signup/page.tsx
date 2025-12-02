@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { signUp, signInWithGoogle, signInWithMicrosoft } from '../auth/actions'
+import { signUp, signInWithGoogle } from '../auth/actions'
 
 export default function SignUpPage() {
   const [error, setError] = useState<string | null>(null)
@@ -45,15 +45,6 @@ export default function SignUpPage() {
     }
   }
 
-  async function handleMicrosoftSignIn() {
-    setLoading(true)
-    setError(null)
-    const result = await signInWithMicrosoft()
-    if (result?.error) {
-      setError(result.error)
-      setLoading(false)
-    }
-  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -188,7 +179,7 @@ export default function SignUpPage() {
             </div>
 
             {/* OAuth Buttons */}
-            <div className="mt-6 grid grid-cols-2 gap-3">
+            <div className="mt-6">
               <button
                 onClick={handleGoogleSignIn}
                 disabled={loading}
@@ -212,22 +203,7 @@ export default function SignUpPage() {
                     d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                   />
                 </svg>
-                <span className="ml-2">Google</span>
-              </button>
-
-              <button
-                onClick={handleMicrosoftSignIn}
-                disabled={loading}
-                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
-              >
-                <svg className="w-5 h-5" viewBox="0 0 23 23">
-                  <path fill="#f3f3f3" d="M0 0h23v23H0z" />
-                  <path fill="#f35325" d="M1 1h10v10H1z" />
-                  <path fill="#81bc06" d="M12 1h10v10H12z" />
-                  <path fill="#05a6f0" d="M1 12h10v10H1z" />
-                  <path fill="#ffba08" d="M12 12h10v10H12z" />
-                </svg>
-                <span className="ml-2">Microsoft</span>
+                <span className="ml-2">Continue with Google</span>
               </button>
             </div>
           </div>

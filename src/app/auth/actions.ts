@@ -97,26 +97,6 @@ export async function signInWithGoogle() {
   }
 }
 
-export async function signInWithMicrosoft() {
-  const supabase = await createClient()
-  const origin = (await headers()).get('origin')
-
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'azure',
-    options: {
-      redirectTo: `${origin}/auth/callback`,
-      scopes: 'email',
-    },
-  })
-
-  if (error) {
-    return { error: error.message }
-  }
-
-  if (data.url) {
-    redirect(data.url)
-  }
-}
 
 export async function resetPassword(formData: FormData) {
   const supabase = await createClient()
