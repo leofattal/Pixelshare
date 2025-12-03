@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { signUp, signInWithGoogle } from '../auth/actions'
+import { createClient } from '@/lib/supabase/client'
 
 export default function SignUpPage() {
   const [error, setError] = useState<string | null>(null)
@@ -16,8 +16,11 @@ export default function SignUpPage() {
     setError(null)
 
     const formData = new FormData(e.currentTarget)
+    const email = formData.get('email') as string
     const password = formData.get('password') as string
     const confirmPassword = formData.get('confirmPassword') as string
+    const username = formData.get('username') as string
+    const displayName = formData.get('displayName') as string
 
     if (password !== confirmPassword) {
       setError('Passwords do not match')
@@ -31,23 +34,72 @@ export default function SignUpPage() {
       return
     }
 
-    const result = await signUp(formData)
+    const supabase = createClient()
 
-    if (result?.error) {
-      setError(result.error)
+    // Sign up the user
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          username,
+          display_name: displayName,
+        },
+      },
+    })
+
+    if (authError) {
+      setError(authError.message)
       setLoading(false)
-    } else {
-      // Successful signup - redirect to feed
-      router.push('/feed')
+      return
     }
+
+    if (!authData.user) {
+      setError('Failed to create user')
+      setLoading(false)
+      return
+    }
+
+    // Create user profile in public.users table
+    const { error: profileError } = await supabase
+      .from('users')
+      .insert({
+        id: authData.user.id,
+        email,
+        username,
+        display_name: displayName,
+      })
+
+    if (profileError) {
+      // If username is already taken
+      if (profileError.code === '23505') {
+        setError('Username is already taken')
+      } else {
+        setError(profileError.message)
+      }
+      setLoading(false)
+      return
+    }
+
+    // Successful signup - redirect to feed
+    router.push('/feed')
+    router.refresh()
   }
 
   async function handleGoogleSignIn() {
     setLoading(true)
     setError(null)
-    const result = await signInWithGoogle()
-    if (result?.error) {
-      setError(result.error)
+
+    const supabase = createClient()
+    const { error: signInError } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    })
+
+    if (signInError) {
+      setError(signInError.message)
       setLoading(false)
     }
   }

@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { signIn, signInWithGoogle } from '../auth/actions'
+import { createClient } from '@/lib/supabase/client'
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null)
@@ -16,23 +16,39 @@ export default function LoginPage() {
     setError(null)
 
     const formData = new FormData(e.currentTarget)
-    const result = await signIn(formData)
+    const email = formData.get('email') as string
+    const password = formData.get('password') as string
 
-    if (result?.error) {
-      setError(result.error)
+    const supabase = createClient()
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+
+    if (signInError) {
+      setError(signInError.message)
       setLoading(false)
     } else {
       // Successful login - redirect to feed
       router.push('/feed')
+      router.refresh()
     }
   }
 
   async function handleGoogleSignIn() {
     setLoading(true)
     setError(null)
-    const result = await signInWithGoogle()
-    if (result?.error) {
-      setError(result.error)
+
+    const supabase = createClient()
+    const { error: signInError } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    })
+
+    if (signInError) {
+      setError(signInError.message)
       setLoading(false)
     }
   }
