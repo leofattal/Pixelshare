@@ -60,27 +60,7 @@ export default function SignUpPage() {
       return
     }
 
-    // Create user profile in public.users table
-    const { error: profileError } = await supabase
-      .from('users')
-      .insert({
-        id: authData.user.id,
-        email,
-        username,
-        display_name: displayName,
-      })
-
-    if (profileError) {
-      // If username is already taken
-      if (profileError.code === '23505') {
-        setError('Username is already taken')
-      } else {
-        setError(profileError.message)
-      }
-      setLoading(false)
-      return
-    }
-
+    // User profile is automatically created by database trigger
     // Successful signup - redirect to feed
     router.push('/feed')
     router.refresh()
