@@ -85,7 +85,7 @@ export default function SignUpPage() {
                 autoComplete="username"
                 required
                 pattern="[a-zA-Z0-9_]{3,20}"
-                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-50 dark:bg-gray-900 dark:text-white text-base"
+                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-50 dark:bg-gray-900 dark:text-white text-base"
                 placeholder="johndoe"
               />
               <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
@@ -103,7 +103,7 @@ export default function SignUpPage() {
                 type="text"
                 autoComplete="name"
                 required
-                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-50 dark:bg-gray-900 dark:text-white text-base"
+                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-50 dark:bg-gray-900 dark:text-white text-base"
                 placeholder="John Doe"
               />
             </div>
@@ -118,7 +118,7 @@ export default function SignUpPage() {
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-50 dark:bg-gray-900 dark:text-white text-base"
+                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-50 dark:bg-gray-900 dark:text-white text-base"
                 placeholder="you@example.com"
               />
             </div>
@@ -134,7 +134,7 @@ export default function SignUpPage() {
                 autoComplete="new-password"
                 required
                 minLength={8}
-                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-50 dark:bg-gray-900 dark:text-white text-base"
+                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-50 dark:bg-gray-900 dark:text-white text-base"
                 placeholder="••••••••"
               />
               <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
@@ -153,7 +153,7 @@ export default function SignUpPage() {
                 autoComplete="new-password"
                 required
                 minLength={8}
-                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-50 dark:bg-gray-900 dark:text-white text-base"
+                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-50 dark:bg-gray-900 dark:text-white text-base"
                 placeholder="••••••••"
               />
             </div>
