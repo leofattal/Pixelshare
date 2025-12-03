@@ -50,7 +50,7 @@ export async function signUp(formData: FormData) {
     return { error: profileError.message }
   }
 
-  redirect('/feed')
+  return { success: true }
 }
 
 export async function signIn(formData: FormData) {
@@ -68,7 +68,7 @@ export async function signIn(formData: FormData) {
     return { error: error.message }
   }
 
-  redirect('/feed')
+  return { success: true }
 }
 
 export async function signOut() {

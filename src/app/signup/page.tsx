@@ -2,11 +2,13 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { signUp, signInWithGoogle } from '../auth/actions'
 
 export default function SignUpPage() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -34,6 +36,9 @@ export default function SignUpPage() {
     if (result?.error) {
       setError(result.error)
       setLoading(false)
+    } else {
+      // Successful signup - redirect to feed
+      router.push('/feed')
     }
   }
 
