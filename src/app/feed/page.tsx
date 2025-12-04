@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Header from '@/components/Header'
+import FeedItem from '@/components/FeedItem'
 
 export default async function FeedPage() {
   const supabase = await createClient()
@@ -48,84 +49,11 @@ export default async function FeedPage() {
         ) : (
           <div className="space-y-6">
             {feedItems.map((item: any) => (
-              <div
+              <FeedItem
                 key={`${item.content_type}-${item.content_id}`}
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden"
-              >
-                {/* Post Header */}
-                <div className="p-4 flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-full bg-gray-300 dark:bg-gray-700 overflow-hidden">
-                    {item.profile_picture_url && (
-                      <img
-                        src={item.profile_picture_url}
-                        alt={item.username}
-                        className="w-full h-full object-cover"
-                      />
-                    )}
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-900 dark:text-white">
-                      {item.display_name || item.username}
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      @{item.username}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Content */}
-                {item.content_type === 'post' ? (
-                  <>
-                    <img
-                      src={item.image_url}
-                      alt={item.caption || 'Post image'}
-                      className="w-full"
-                    />
-                    {item.caption && (
-                      <div className="p-4">
-                        <p className="text-gray-900 dark:text-white">{item.caption}</p>
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    <video
-                      src={item.video_url}
-                      poster={item.thumbnail_url}
-                      controls
-                      className="w-full"
-                    />
-                    <div className="p-4">
-                      <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
-                        {item.title}
-                      </h3>
-                      {item.description && (
-                        <p className="text-gray-600 dark:text-gray-400 text-sm">
-                          {item.description}
-                        </p>
-                      )}
-                    </div>
-                  </>
-                )}
-
-                {/* Engagement */}
-                <div className="px-4 pb-4 flex items-center space-x-6 text-sm text-gray-600 dark:text-gray-400">
-                  <button className="flex items-center space-x-1 hover:text-red-500">
-                    <span>❤️</span>
-                    <span>{item.like_count}</span>
-                  </button>
-                  <button className="flex items-center space-x-1 hover:text-blue-500">
-                    <span>💬</span>
-                    <span>{item.comment_count}</span>
-                  </button>
-                  {item.content_type === 'video' && (
-                    <span className="flex items-center space-x-1">
-                      <span>👁️</span>
-                      <span>{item.view_count}</span>
-                    </span>
-                  )}
-                </div>
-              </div>
+                item={item}
+                currentUserId={user.id}
+              />
             ))}
           </div>
         )}
