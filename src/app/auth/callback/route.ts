@@ -8,31 +8,11 @@ export async function GET(request: Request) {
 
   if (code) {
     const supabase = await createClient()
-    const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+    const { error } = await supabase.auth.exchangeCodeForSession(code)
 
-    if (!error && data.user) {
-      // Check if user profile exists
-      const { data: profile } = await supabase
-        .from('users')
-        .select('id')
-        .eq('id', data.user.id)
-        .single()
-
-      // If profile doesn't exist, create it
-      if (!profile) {
-        const username = data.user.user_metadata.username ||
-                        data.user.email?.split('@')[0] ||
-                        `user_${data.user.id.slice(0, 8)}`
-
-        await supabase.from('users').insert({
-          id: data.user.id,
-          email: data.user.email!,
-          username,
-          display_name: data.user.user_metadata.full_name || data.user.user_metadata.name || username,
-          profile_picture_url: data.user.user_metadata.avatar_url || data.user.user_metadata.picture,
-        })
-      }
-
+    if (!error) {
+      // User profile is automatically created by database trigger
+      // Just redirect to the feed
       return NextResponse.redirect(`${origin}${next}`)
     }
   }
